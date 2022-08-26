@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 export const isFalsy = (value) => value === 0? false: !value
 
 // 在一个函数中改变传入的对象是不好的!
@@ -11,4 +13,27 @@ export const cleanObject = (object) => {
         }
     })
     return result;
+}
+
+export const useMount = (callback) => {
+    useEffect(()=>{
+        callback();
+    }, []);
+}
+
+export const useDebounce(value, delay) {
+
+    const [debounceValue, setDebounceValue] = useState(value);
+    
+    useEffect(()=>{
+        const timer = setTimeout(()=>{
+            setDebounceValue(value);
+        }, delay);
+
+        return () => {
+            clearTimeout(timer);
+        }
+    }, [value, delay])
+
+    return debounceValue;
 }

@@ -20,7 +20,7 @@ export const ProjectListScreen = () =>{
     const client = useHttp();
 
     // 当param变化时获取要展示的列表
-    useEffect(()=>{
+    useEffect(() => {
 
         client('projects', {data: cleanObject(debounceParam)}).then(setList);
 
@@ -39,7 +39,6 @@ export const ProjectListScreen = () =>{
         //     }
         // })
     })
-
      return (
      <div>
         <SearchPanel param={param} setParam={setParam} users={users}></SearchPanel>

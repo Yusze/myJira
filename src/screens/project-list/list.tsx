@@ -1,10 +1,11 @@
-import { render } from '@testing-library/react';
 import { Table } from 'antd';
+import { TableProps } from 'antd/lib/table';
 import dayjs from 'dayjs';
 import React from "react"
+import { useResolvedPath } from 'react-router-dom';
 import {User} from 'screens/project-list/search-panel';
 
-interface Project {
+export interface Project {
     id: string;
     name: string;
     personId:string;
@@ -12,13 +13,16 @@ interface Project {
     organization: string;
     created:number;
 }
-interface ListProps {
-    list:Project[];
+interface ListProps extends TableProps<Project>{
     users:User[];
 }
-export const List = ({list, users}:ListProps) =>{
+export const List = ({users, ...props}: ListProps) =>{
     // localeCompare可以比较中文字符
-    return <Table pagination={false} rowKey='id' columns={[
+    return <Table 
+        pagination={false}
+
+        rowKey='id' 
+        columns={[
         {
             title:'名称',
             dataIndex:'name', 
@@ -43,7 +47,7 @@ export const List = ({list, users}:ListProps) =>{
                 </span>
             }
         }
-    ]} dataSource={list}></Table>
+    ]} {...props}></Table>
     // return (<table>
     //     <thead>
     //         <tr>

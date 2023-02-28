@@ -5,7 +5,7 @@ import styled from '@emotion/styled'
 import { Row } from 'components/lib';
 import {ReactComponent as SoftwareLogo} from 'assets/software-logo.svg'
 import { Button, Dropdown, Menu } from 'antd';
-import userEvent from '@testing-library/user-event';
+
 
 export const AuthenticatedApp = () => {
   const {user, logout} = useAuth();
@@ -13,7 +13,7 @@ export const AuthenticatedApp = () => {
   <Container>
     <Header between={true}> 
       <HeaderLeft gap={true}>
-        <SoftwareLogo width={'18rem'} color={'rgb(38, 132, 255)'}></SoftwareLogo>
+        <SoftwareLogo width={'18rem'} color={'rgb(38, 132, 255)'} />
         {/* <img src={softwareLogo}/> */}
         <h2>项目</h2>
         <h2>用户</h2>
@@ -22,6 +22,7 @@ export const AuthenticatedApp = () => {
         <Dropdown overlay={
           <Menu>
             <Menu.Item key={'logout'}>
+              {/* 使用a标签需要提供href 所以此处使用button组件 并设置type为link */}
               <Button type={'link'} onClick={logout}>登出</Button>
             </Menu.Item>
           </Menu>

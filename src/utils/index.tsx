@@ -4,8 +4,9 @@ export const isFalsy = (value:unknown) => value === 0? false: !value
 export const isVoid = (value: unknown) => value === undefined || value === null || value === ''; 
 
 // 在一个函数中改变传入的对象是不好的!
-// 因为返回object的除了真正的对象 还有函数或者正则表达式对象 但对后者进行结构是没有意义的 所以此处是空对象
-// 此处的类型就不能用object 而应该指明
+// 因为TS的object类型表示除了基础类型之外的其他非原始类型
+// 因此 除了真正的对象 还可能是函数或者正则表达式对象 但对后者进行结构是没有意义的 所以TS此处返回空对象
+// 此处的类型就不能用object 而应该指明确切需要键值对形式的对象{[key:string]: unknown}
 export const cleanObject = (object:{[key: string]: unknown}) => {
     const result = {...object};
     Object.keys(result).forEach(key => {

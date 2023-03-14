@@ -1,9 +1,11 @@
 import { Table } from 'antd';
 import { TableProps } from 'antd/lib/table';
+import { Pin } from 'components/pin';
 import dayjs from 'dayjs';
 import React from "react"
 import { Link } from 'react-router-dom';
 import {User} from 'screens/project-list/search-panel';
+import { useEditProject } from 'utils/project';
 
 export interface Project {
     id: number;
@@ -15,14 +17,25 @@ export interface Project {
 }
 interface ListProps extends TableProps<Project>{
     users:User[];
+    refresh?: () => void
 }
 export const List = ({users, ...props}: ListProps) =>{
+    const {mutate} = useEditProject();
+    // 函数式编程
+    const pinProject = (id:number) => (pin:boolean) => mutate({id, pin}).then(props.refresh)
     // localeCompare可以比较中文字符
     return <Table 
         pagination={false}
 
         rowKey='id' 
         columns={[
+        {
+            title: <Pin checked={true} disabled={true} />,
+            render(value, project) {
+                // render函数用于生成复杂的渲染数据 参数分别是当前行的值 当前行的数据
+                return <Pin checked={project.pin} onCheckedChange={pinProject(project.id)} />
+            }
+        },
         {
             title:'名称',
             sorter: (a, b)=>a.name.localeCompare(b.name),

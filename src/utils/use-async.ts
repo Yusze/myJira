@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useMountedRef } from 'utils';
 
 interface State<D> {
   error: Error | null;
@@ -23,6 +24,7 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?:typeof defau
     ...defaultInittialState,
     ...initialState
   });
+  const mountedRef = useMountedRef();
   const [retry, setRetry] = useState(() => ()=>{})
   const setData = (data: D) => setState({
     data,
@@ -48,7 +50,8 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?:typeof defau
     setState({...state, stat:'loading'})
 
     return promise.then(data => {
-      setData(data);
+      if (mountedRef.current)
+        setData(data);
       return data;
     }).catch(error => {
       // 如果不再继续抛出异常 该异常到这里就会终止了

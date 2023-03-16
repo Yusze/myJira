@@ -13,6 +13,7 @@ export const useUrlQueryParam = <K extends string>(keys: K[]) => {
         // 每一次调用都返回一个新的对象
           return {...prev, [key]:searchParams.get(key) || ''}; 
         }, {} as {[k in K]: string}),
+     // eslint-disable-next-line
      [searchParams]
     ),
     (params:Partial<{[key in K]:unknown}>)=> {

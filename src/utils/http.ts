@@ -1,6 +1,7 @@
 import qs from 'qs'
 import * as auth from 'auth-provider'
 import { useAuth } from 'context/auth-context';
+import { useCallback } from 'react';
 const apiUrl = process.env.REACT_APP_API_URL;
 
 
@@ -59,6 +60,6 @@ export const useHttp = () => {
     Partial<某个类型> 可以允许不传入任何对应的数据
     Omit<any, any> 第二个参数是允许从第一个参数中删除的某属性(如果有多个属性可以使用|连接) 即不用填入
   */
-  return (...[endpoint, config]: Parameters<typeof http>) => http(endpoint, {...config, token: user?.token});
+  return useCallback((...[endpoint, config]: Parameters<typeof http>) => http(endpoint, {...config, token: user?.token}), [user?.token]);
 
 }

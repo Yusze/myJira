@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useHttp } from './http';
 import {useEffect} from 'react'
 import {useAsync} from './use-async'
@@ -9,11 +9,11 @@ export const useProject = (param ?: Partial<Project>) => {
   const client = useHttp();
   const {run, ...result} = useAsync<Project[]>();
 
-  const fetchProjects = () => client('projects', {data: cleanObject(param || {})});
+  const fetchProjects = useCallback(() => client('projects', {data: cleanObject(param || {})}), [param, client]);
   // 当param变化时获取要展示的列表
   useEffect(() => {
       run(fetchProjects(), {retry: fetchProjects});
-  }, [param])
+  }, [param, run, fetchProjects])
   return result;
 }
 

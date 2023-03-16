@@ -12,6 +12,6 @@ export const useUsers = (param?: Partial<User>) => {
   const [users, setUsers] = useState([]);
   useEffect(()=>{
     run(client('users', {data: cleanObject(param || {})}));
-  }, [param])
+  }, [param, run, client])
   return result;
 }
